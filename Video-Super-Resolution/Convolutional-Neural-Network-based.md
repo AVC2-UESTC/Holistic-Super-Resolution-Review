@@ -35,3 +35,4 @@ Model | Description | Publication | Year
 [ETDM](https://openaccess.thecvf.com/content/CVPR2022/papers/Isobe_Look_Back_and_Forth_Video_Super-Resolution_With_Explicit_Temporal_Difference_CVPR_2022_paper.pdf)| Explicit Temporal Difference Modeling |CVPR|2022
 [CAVSR](https://openaccess.thecvf.com/content/CVPR2023/papers/Wang_Compression-Aware_Video_Super-Resolution_CVPR_2023_paper.pdf)| Compression-Aware |CVPR|2023
 [STDO](https://openaccess.thecvf.com/content/CVPR2023/papers/Li_Towards_High-Quality_and_Efficient_Video_Super-Resolution_via_Spatial-Temporal_Data_Overfitting_CVPR_2023_paper.pdf)| Spatial-Temporal Data Overfitting |CVPR|2023
+[SSL](https://openaccess.thecvf.com/content/CVPR2023/papers/Xia_Structured_Sparsity_Learning_for_Efficient_Video_Super-Resolution_CVPR_2023_paper.pdf)| structure sparsity |CVPR|2023

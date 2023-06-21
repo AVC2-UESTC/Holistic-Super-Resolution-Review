@@ -11,4 +11,5 @@ Model | Description | Publication | Year
 [EQSR](https://openaccess.thecvf.com/content/CVPR2023/papers/Wang_Deep_Arbitrary-Scale_Image_Super-Resolution_via_Scale-Equivariance_Pursuit_CVPR_2023_paper.pdf)|Arbitrary-Scale|CVPR|2023
 [CiaoSR](https://openaccess.thecvf.com/content/CVPR2023/papers/Cao_CiaoSR_Continuous_Implicit_Attention-in-Attention_Network_for_Arbitrary-Scale_Image_Super-Resolution_CVPR_2023_paper.pdf)|Arbitrary-Scale|CVPR|2023
 [NGram](https://openaccess.thecvf.com/content/CVPR2023/papers/Wang_Compression-Aware_Video_Super-Resolution_CVPR_2023_paper.pdf)|modification of window|CVPR|2023
-
+[Omni-SR](https://openaccess.thecvf.com/content/CVPR2023/papers/Wang_Omni_Aggregation_Networks_for_Lightweight_Image_Super-Resolution_CVPR_2023_paper.pdf)|spatial and channel attention|CVPR|2023
+[CLIT](https://openaccess.thecvf.com/content/CVPR2023/papers/Chen_Cascaded_Local_Implicit_Transformer_for_Arbitrary-Scale_Super-Resolution_CVPR_2023_paper.pdf)|Local Implicit Transformer|CVPR|2023

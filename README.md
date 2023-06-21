@@ -76,6 +76,7 @@ EBRN | 7900 | 32.79/0.9032 | 29.01/0.7903 | 27.85/0.7464 | 27.03/0.8114 | DIV2K
 DFSA | - | 32.79/0.9019 | 29.06/0.7922 | 27.87/0.7458 | 27.17/0.8163 | DIV2K+Flickr2K 
 SwinIR-LTE | - | 32.81/- | 29.06/- | 27.86/- | 27.24/- | DIV2K
 SwinIR | 11800 | 32.92/0.9044 | 29.09/0.7950 | 27.92/0.7489 | 27.45/0.8254 | DIV2K+Flickr2K 
+OmniSR | 792 | 32.49/0.8988 | 28.78/0.7859 | 27.71/0.7415 | 26.64/0.8018 | DIV2K 
 
 ## :heavy_exclamation_mark: Video Super-Resolution (VSR)  
 We categorize the SISR into three types, [**Convolutional Neural Network-based**](./Video-Super-Resolution/Convolutional-Neural-Network-based.md), and [**Transformer-based**](./Video-Super-Resolution/Transformer-based.md), for their purpose.  
