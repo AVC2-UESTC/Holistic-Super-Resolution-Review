@@ -131,6 +131,7 @@ iPASSR  | 1.42  | 25.61/0.7850  | 26.47/0.7993  | 29.07/0.8363  | Middlebury+Fli
 SSRDE-FNet  | 2.24  | 25.74/0.7884  | 26.61/0.8028  | 29.29/0.8407  | Flickr1024 
 IMSSRnet  | 6.89  | 25.59/-  | 26.44/-  | 29.02/-  | Middlebury+Flickr1024 
 CVCNet  | 0.99  | 25.55/0.7801  | 26.35/0.7935  | 28.65/0.8231  | Flickr1024 
+PFT-SSR  | -  | 25.76/0.7775  | 26.64/0.7913  | 29.58/0.8418  | Flickr1024+Middlebury 
 
 ## :heavy_exclamation_mark: Light Field Super-Resolution (LFSR)  
 We categorize the LFSR into three types, [**Convolutional Neural Network-based**](./Light-Field-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Light-Field-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Light-Field-Super-Resolution/Transformer-based.md), for their purpose.  
