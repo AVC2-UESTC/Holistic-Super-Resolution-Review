@@ -1,0 +1,47 @@
+name: HAN_x3_official
+model_type: SRModel
+scale: 3
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 0
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: SingleImage
+    type: PairedImageDataset
+    dataroot_gt: datasets\test_imgs\HR
+    dataroot_lq: datasets\test_imgs\LR\X3
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: HAN
+  n_resgroups: 10
+  n_resblocks: 20
+  n_feats: 64
+  reduction: 16
+  scale: 3
+  rgb_range: 255.
+  n_colors: 3
+  res_scale: 1
+
+# path
+path:
+  pretrain_network_g: model_weights\SISR\RegressionModels\HAN-ECCV-20\HAN_BIX3.pt
+  strict_load_g: true
+  param_key_g: ~
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 3
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 3
+      test_y_channel: true
