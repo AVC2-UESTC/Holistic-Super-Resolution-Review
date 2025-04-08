@@ -8,8 +8,8 @@ datasets:
   test_1:  # the 1st test dataset
     name: SingleImage
     type: PairedImageDataset
-    dataroot_gt: Evaluation\datasets\test_imgs\HR\img092.png
-    dataroot_lq: Evaluation\datasets\test_imgs\LR\X2\img092x2.png
+    dataroot_gt: datasets\test_imgs\HR
+    dataroot_lq: datasets\test_imgs\LR\X2
     io_backend:
       type: disk
 
@@ -29,7 +29,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: Evaluation\model_weights\SISR\RegressionModels\CRAFT-TPAMI25\CRAFT_MODEL_x2.pth
+  pretrain_network_g: model_weights\SISR\RegressionModels\CRAFT-TPAMI25\CRAFT_MODEL_x2.pth
   strict_load_g: true
 
 # validation settings

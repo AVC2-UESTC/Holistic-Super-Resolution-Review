@@ -205,7 +205,6 @@ class SRWAB(nn.Module):
     def __init__(self,
                  dim,
                  num_heads,
-                 patch_size=64,
                  split_size=(2,2),
                  shift_size=(0,0),
                  mlp_ratio=2.,
@@ -221,8 +220,6 @@ class SRWAB(nn.Module):
         self.qkv = nn.Linear(dim, dim * 3, bias=qkv_bias)
         self.proj = nn.Linear(dim, dim)
         self.branch_num = 2
-        self.patch_size = patch_size
-        self.split_size = split_size
         self.get_v = nn.Conv2d(dim, dim, kernel_size=3, stride=1, padding=1,groups=dim) # DW Conv
 
         self.attns = nn.ModuleList([
@@ -236,63 +233,7 @@ class SRWAB(nn.Module):
         mlp_hidden_dim = int(dim * mlp_ratio)
         self.mlp = Mlp(in_features=dim, hidden_features=mlp_hidden_dim, act_layer=act_layer)
 
-        if self.shift_size[0] > 0 or self.shift_size[1] > 0:
-            attn_mask = self.calculate_mask(self.patch_size, self.patch_size)
-
-            self.register_buffer("attn_mask_0", attn_mask[0])
-            self.register_buffer("attn_mask_1", attn_mask[1])
-        else:
-            attn_mask = None
-
-            self.register_buffer("attn_mask_0", None)
-            self.register_buffer("attn_mask_1", None)
-
-    def calculate_mask(self, H, W):
-        # The implementation builds on Swin Transformer code https://github.com/microsoft/Swin-Transformer/blob/main/models/swin_transformer.py
-        # calculate attention mask for Rwin
-        img_mask_0 = torch.zeros((1, H, W, 1))  # 1 H W 1 idx=0
-        img_mask_1 = torch.zeros((1, H, W, 1))  # 1 H W 1 idx=1
-        h_slices_0 = (slice(0, -self.split_size[0]),
-                    slice(-self.split_size[0], -self.shift_size[0]),
-                    slice(-self.shift_size[0], None))
-        w_slices_0 = (slice(0, -self.split_size[1]),
-                    slice(-self.split_size[1], -self.shift_size[1]),
-                    slice(-self.shift_size[1], None))
-
-        h_slices_1 = (slice(0, -self.split_size[1]),
-                    slice(-self.split_size[1], -self.shift_size[1]),
-                    slice(-self.shift_size[1], None))
-        w_slices_1 = (slice(0, -self.split_size[0]),
-                    slice(-self.split_size[0], -self.shift_size[0]),
-                    slice(-self.shift_size[0], None))
-        cnt = 0
-        for h in h_slices_0:
-            for w in w_slices_0:
-                img_mask_0[:, h, w, :] = cnt
-                cnt += 1
-        cnt = 0
-        for h in h_slices_1:
-            for w in w_slices_1:
-                img_mask_1[:, h, w, :] = cnt
-                cnt += 1
-
-        # calculate mask for H-Shift
-        img_mask_0 = img_mask_0.view(1, H // self.split_size[0], self.split_size[0], W // self.split_size[1], self.split_size[1], 1)
-        img_mask_0 = img_mask_0.permute(0, 1, 3, 2, 4, 5).contiguous().view(-1, self.split_size[0], self.split_size[1], 1) # nW, sw[0], sw[1], 1
-        mask_windows_0 = img_mask_0.view(-1, self.split_size[0] * self.split_size[1])
-        attn_mask_0 = mask_windows_0.unsqueeze(1) - mask_windows_0.unsqueeze(2)
-        attn_mask_0 = attn_mask_0.masked_fill(attn_mask_0 != 0, float(-100.0)).masked_fill(attn_mask_0 == 0, float(0.0))
-
-        # calculate mask for V-Shift
-        img_mask_1 = img_mask_1.view(1, H // self.split_size[1], self.split_size[1], W // self.split_size[0], self.split_size[0], 1)
-        img_mask_1 = img_mask_1.permute(0, 1, 3, 2, 4, 5).contiguous().view(-1, self.split_size[0], self.split_size[1], 1) # nW, sw[1], sw[0], 1
-        mask_windows_1 = img_mask_1.view(-1, self.split_size[1] * self.split_size[0])
-        attn_mask_1 = mask_windows_1.unsqueeze(1) - mask_windows_1.unsqueeze(2)
-        attn_mask_1 = attn_mask_1.masked_fill(attn_mask_1 != 0, float(-100.0)).masked_fill(attn_mask_1 == 0, float(0.0))
-
-        return attn_mask_0, attn_mask_1
-
-    def forward(self, x, x_size, params):
+    def forward(self, x, x_size, params, attn_mask=NotImplementedError):
         h, w = x_size
         self.h,self.w = x_size
 
@@ -312,19 +253,10 @@ class SRWAB(nn.Module):
             qkv_1 = torch.roll(qkv[:,:,:,:,c//2:], shifts=(-self.shift_size[1], -self.shift_size[0]), dims=(2, 3))
             qkv_1 = qkv_1.view(3, b, h*w, c//2)
 
-            if self.patch_size != h or self.patch_size != w:
-                mask_tmp = self.calculate_mask(h, w)
-                # H-Rwin
-                x1_shift = self.attns[0](qkv_0, h, w, mask=mask_tmp[0].to(x.device), rpi=params['rpi_sa_h'], rpe_biases=params['biases_h'])
-                # V-Rwin
-                x2_shift = self.attns[1](qkv_1, h, w, mask=mask_tmp[1].to(x.device), rpi=params['rpi_sa_v'], rpe_biases=params['biases_v'])
-
-            else:
-                # H-Rwin
-                x1_shift = self.attns[0](qkv_0, h, w, mask=self.attn_mask_0, rpi=params['rpi_sa_h'], rpe_biases=params['biases_h'])
-                # V-Rwin
-                x2_shift = self.attns[1](qkv_1, h, w, mask=self.attn_mask_1, rpi=params['rpi_sa_v'], rpe_biases=params['biases_v'])
-
+            # H-Rwin
+            x1_shift = self.attns[0](qkv_0, h, w, mask=attn_mask[0], rpi=params['rpi_sa_h'], rpe_biases=params['biases_h'])
+            # V-Rwin
+            x2_shift = self.attns[1](qkv_1, h, w, mask=attn_mask[1], rpi=params['rpi_sa_v'], rpe_biases=params['biases_v'])
 
             x1 = torch.roll(x1_shift, shifts=(self.shift_size[0], self.shift_size[1]), dims=(1, 2))
             x2 = torch.roll(x2_shift, shifts=(self.shift_size[1], self.shift_size[0]), dims=(1, 2))
@@ -385,7 +317,7 @@ class HFERB(nn.Module):
 
 
 ##########################################################################
-## Multi-DConv Head Transposed Self-Attention (MDTA)
+## High-frequency prior query inter attention layer
 class Attention(nn.Module):
     def __init__(self, dim, num_heads, bias, train_size=(1, 3, 48, 48), base_size=(int(48 * 1.5), int(48 * 1.5))):
         super(Attention, self).__init__()
@@ -479,7 +411,7 @@ class LayerNorm(nn.Module):
         return to_4d(self.body(to_3d(x)), h, w)
 
 ##########################################################################
-## Gated-Dconv Feed-Forward Network (GDFN)
+## Improved feed-forward network
 class FeedForward(nn.Module):
     def __init__(self, dim, ffn_expansion_factor, bias):
         super(FeedForward, self).__init__()
@@ -546,7 +478,6 @@ class CRFB(nn.Module):
                  dim,
                  depth,
                  num_heads,
-                 patch_size=64,
                  split_size_0=7,
                  split_size_1=7,
                  mlp_ratio=2.,
@@ -563,7 +494,6 @@ class CRFB(nn.Module):
             SRWAB(
                 dim=dim,
                 num_heads=num_heads,
-                patch_size=patch_size,
                 split_size=[split_size_0,split_size_1],
                 shift_size=[0,0] if (i % 2 == 0) else [split_size_0//2, split_size_1//2],
                 mlp_ratio=mlp_ratio,
@@ -592,7 +522,7 @@ class CRFB(nn.Module):
         for i in range(self.depth):
             low = x.permute(0, 2, 3, 1)
             low = low.reshape(b, h*w, c)
-            low = self.srwa_blocks[2*i+1](self.srwa_blocks[2*i](low, x_size, params), x_size, params)
+            low = self.srwa_blocks[2*i+1](self.srwa_blocks[2*i](low, x_size, params, params['attn_mask']), x_size, params, params['attn_mask'])
             low = low.reshape(b, h, w, c)
             low = low.permute(0, 3, 1, 2)
             high = self.hfer_blocks[i](x)
@@ -620,7 +550,6 @@ class RCRFG(nn.Module):
                  depth,
                  num_heads,
                  mlp_ratio=2.,
-                 patch_size=64,
                  qkv_bias=True,
                  qk_scale=None,
                  split_size_0 = 2,
@@ -638,7 +567,6 @@ class RCRFG(nn.Module):
             mlp_ratio=mlp_ratio,
             qkv_bias=qkv_bias,
             qk_scale=qk_scale,
-            patch_size=patch_size,
             split_size_0 = split_size_0,
             split_size_1 = split_size_1,
             norm_layer=norm_layer
@@ -672,7 +600,7 @@ class UpsampleOneStep(nn.Sequential):
         super(UpsampleOneStep, self).__init__(*m)
 
 
-# @ARCH_REGISTRY.register()
+@ARCH_REGISTRY.register()
 class CRAFT(nn.Module):
     r""" Cross-Refinement Adaptive Fusion Transformer
         Some codes are based on SwinIR.
@@ -693,7 +621,6 @@ class CRAFT(nn.Module):
     def __init__(self,
                  in_chans=3,
                  embed_dim=96,
-                 patch_size=64,
                  depths=(6, 6, 6, 6),
                  num_heads=(6, 6, 6, 6),
                  split_size_0 = 4,
@@ -706,12 +633,11 @@ class CRAFT(nn.Module):
                  img_range=1.,
                  upsampler='',
                  resi_connection='1conv',
-                 hooks=False,
                  **kwargs):
         super(CRAFT, self).__init__()
 
         self.split_size = (split_size_0, split_size_1)
-        self.median_feas = []
+
         num_in_ch = in_chans
         num_out_ch = in_chans
         num_feat = 64
@@ -744,7 +670,6 @@ class CRAFT(nn.Module):
             layer = RCRFG(
                 dim=embed_dim,
                 depth=depths[i_layer],
-                patch_size=patch_size,
                 num_heads=num_heads[i_layer],
                 mlp_ratio=self.mlp_ratio,
                 qkv_bias=qkv_bias,
@@ -767,28 +692,6 @@ class CRAFT(nn.Module):
         self.upsample = UpsampleOneStep(upscale, embed_dim, num_out_ch)
 
         self.apply(self._init_weights)
-        if hooks:
-            self.apply(self.set_hooks)
-
-    def set_hooks(self, m):
-        def get_fesa(module, input, output):
-            self.median_feas.append(output)
-
-        # if isinstance(m, SRWAB) or isinstance(m, HFB) or isinstance(m, HFERB) or isinstance(m, RCRFG):
-        #     m.register_forward_hook(get_fesa)
-
-        if isinstance(m, HFERB):
-            m.register_forward_hook(get_fesa)
-    
-    def remove_hooks(self, m):
-        # if isinstance(m, SRWAB) or isinstance(m, HFB) or isinstance(m, HFERB) or isinstance(m, RCRFG):
-        #     m._forward_hooks.clear()
-
-        if isinstance(m, HFERB):
-            m._forward_hooks.clear()
-            # m.remove_forward_hook()
-
-
 
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
@@ -798,7 +701,6 @@ class CRAFT(nn.Module):
         elif isinstance(m, nn.LayerNorm):
             nn.init.constant_(m.bias, 0)
             nn.init.constant_(m.weight, 1.0)
-
 
     def calculate_rpi_v_sa(self):
         # generate mother-set
@@ -843,6 +745,8 @@ class CRAFT(nn.Module):
         self.register_buffer('biases_v', biases_v)
         self.register_buffer('biases_h', biases_h)
 
+        return biases_v, biases_h
+
     @torch.jit.ignore
     def no_weight_decay(self):
         return {'absolute_pos_embed'}
@@ -853,7 +757,7 @@ class CRAFT(nn.Module):
 
     def forward_features(self, x):
         x_size = (x.shape[2], x.shape[3])
-        params = {'rpi_sa_h': self.relative_position_index_h, 'rpi_sa_v': self.relative_position_index_v, 'biases_v':self.biases_v, 'biases_h':self.biases_h}
+        params = {'attn_mask': (None, None), 'rpi_sa_h': self.relative_position_index_h, 'rpi_sa_v': self.relative_position_index_v, 'biases_v':self.biases_v, 'biases_h':self.biases_h}
 
         for layer in self.layers:
             x = layer(x, x_size, params)
@@ -880,13 +784,14 @@ if __name__ == '__main__':
     import sys 
     import os
     sys.path.append(os.path.abspath('.'))
-    upscale = 2
+
+
+    upscale = 4
     window_size = 16
     height = (512 // upscale // window_size) * window_size
     width = (512 // upscale // window_size) * window_size
-    print(height, width)
     import os
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     model = CRAFT(
         upscale=upscale, img_size=(height, width), window_size=window_size,
         img_range=1., depths=[2, 2, 2, 2],
