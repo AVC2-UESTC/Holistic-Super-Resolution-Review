@@ -23,6 +23,7 @@ version.py
 *.pth
 *.zip
 *.png
+*.pt
 
 # template
 
