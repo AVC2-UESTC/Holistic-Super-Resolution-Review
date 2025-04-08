@@ -8,8 +8,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
-import sys
-sys.path.append('/home/liao/sr/BasicSR-master')
+from basicsr.utils.registry import ARCH_REGISTRY
 from basicsr.archs.arch_util import to_2tuple, trunc_normal_
 
 
@@ -645,7 +644,7 @@ class UpsampleOneStep(nn.Sequential):
         flops += h * w * self.num_feat * 3 * 3 * (self.scale ** 2)
         return flops
 
-
+@ARCH_REGISTRY.register()
 class SwinIR(nn.Module):
     r""" SwinIR
         A PyTorch impl of : `SwinIR: Image Restoration Using Swin Transformer`, based on Swin Transformer.

@@ -1,0 +1,46 @@
+name: SwinIR_x3_official
+model_type: Window_Based_Model
+scale: 3
+num_gpu: 1  # set num_gpu: 0 for cpu mode
+manual_seed: 0
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: SingleImage
+    type: PairedImageDataset
+    dataroot_gt: datasets\test_imgs\HR
+    dataroot_lq: datasets\test_imgs\LR\X3
+    io_backend:
+      type: disk
+
+# network structures
+network_g:
+  type: SwinIR
+  upscale: 3
+  window_size: 8
+  img_range: 1.
+  depths: [6, 6, 6, 6]
+  embed_dim: 60
+  num_heads: [6, 6, 6, 6]
+  mlp_ratio: 2
+  upsampler: 'pixelshuffledirect'
+
+# path
+path:
+  pretrain_network_g: model_weights\SISR\RegressionModels\SwinIR-ICCVW-21\002_lightweightSR_DIV2K_s64w8_SwinIR-S_x3.pth
+  strict_load_g: true
+
+# validation settings
+val:
+  save_img: true
+  suffix: ~  # add suffix to saved images, if None, use exp name
+
+  metrics:
+    psnr: # metric name, can be arbitrary
+      type: calculate_psnr
+      crop_border: 3
+      test_y_channel: true
+    ssim:
+      type: calculate_ssim
+      crop_border: 3
+      test_y_channel: true
