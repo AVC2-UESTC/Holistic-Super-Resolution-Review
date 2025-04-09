@@ -1,3 +1,24 @@
+# Holistic Evaluation
+
+### 🎉 We have implemented several **super-resolution** methods as listed below. These methods can generally be categorized into two main domains: **Regression** and **Generation**, from both model type and perspective.
+
+### 😊To use the models, place the corresponding model weights into the `model_weights` directory. The directory structure should follow this format:
+
+```
+model_weights
+    |--SISR
+        |--RegressiveModels
+            |--CRAFT-TPAMI-25
+            |--CAT-NeurIPS-22
+            ...
+        |--GenerativeModels
+            |--...
+    |--VSR
+        |--RegressiveModels
+            |--...
+        |--GenerativeModels
+            |--...
+```
 # Models
 ## SISR
 ### Regression Models
