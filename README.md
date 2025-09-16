@@ -77,6 +77,17 @@ DFSA | - | 32.79/0.9019 | 29.06/0.7922 | 27.87/0.7458 | 27.17/0.8163 | DIV2K+Fli
 SwinIR-LTE | - | 32.81/- | 29.06/- | 27.86/- | 27.24/- | DIV2K
 SwinIR | 11800 | 32.92/0.9044 | 29.09/0.7950 | 27.92/0.7489 | 27.45/0.8254 | DIV2K+Flickr2K 
 OmniSR | 792 | 32.49/0.8988 | 28.78/0.7859 | 27.71/0.7415 | 26.64/0.8018 | DIV2K 
+ASSLN | 677 | 32.29/0.8964  | 28.69/0.7844 | 27.66/0.7384 | 26.27/0.7907 | DIV2K+Flickr2K  
+SPSR | - | 31.04/0.8772 | 27.07/0.8076 | 26.05/0.6818  | 25.23.0.9531 | DIV2K 
+DLGSANet  | 761 | 32.54/0.8993 | 28.84/0.7871 | 27.73/0.7415 | 26.66/0.8033 | DIV2K 
+CRAFT | 753 | 32.52/0.8989  | 28.85/0.7872 | 27.72/0.7418 | 26.56/0.7995 | DIV2K 
+SRFormer | 873  | 32.51/0.8988 | 28.82/0.7872 | 27.73/0.7422 | 26.67/0.8032 | DIV2K 
+WGSR | - | 31.51/0.8690 | 26.69/0.7160 | 26.37/0.6840 | 25.61/0.7770 | DIV2K 
+EQSR | - | 32.71/- | 29.12/-  | 27.86/- | 27.30/- | DIV2K+Flickr2K
+HAT | 20800 | 33.04/0.9056 | 29.23/0.7973 | 28.00/0.7517 | 27.97/0.8368 | DIV2K+Flickr2K 
+DAT | 11212 | 33.08/0.9055 | 29.23/0.7973 | 28.00/0.7515 | 27.87/0.8343 | DIV2K+Flickr2K
+SAFMN | 240 | 32.18/0.8948 | 28.60/0.7813 | 27.58/0.7359 | 25.97/0.7809 | DIV2K+Flickr2K 
+CFAT | 22070 | 33.19/ 0.9068 | 29.30/0.7985 | 28.17/0.7524 | 28.11/0.8380 | DIV2K+Flickr2K
 
 ## :heavy_exclamation_mark: Video Super-Resolution (VSR)  
 We categorize the SISR into three types, [**Convolutional Neural Network-based**](./Video-Super-Resolution/Convolutional-Neural-Network-based.md), and [**Transformer-based**](./Video-Super-Resolution/Transformer-based.md), for their purpose.  
@@ -107,6 +118,15 @@ IconVSR | 8.7 | 27.39/0.88279 | 37.47/0.9476 | 31.67/0.8948 | REDS+Vimeo-90K
 DSMC | - | -/- | -/- | 25.73/0.8428 | REDS 
 VSRT | 32.6 | 27.36/0.8258 | 37.71/0.9494 | 25.73/0.8428 | REDS+Vimeo-90K 
 VRT | 35.6 | 27.93/0.8425 | 38.20/0.9530 | 25.73/0.8428 | REDS 
+TOFlow | 1.4 | 25.89/0.7651 | 33.08/0.9054 | 27.98/0.7990 | Vimeo-90K 
+DNSTNet | - | 27.21/0.8220  | 36.86/0.9387  | - | Vimeo-90K 
+SATeCo | - | 27.44/0.8420  | 38.22/0.9532  | 31.62/0.8932 | Vimeo-90K 
+MIAVSR | 6.35 | 28.20/0.8507  | 38.22/0.9532  | 30.46/-  | REDS+Vimeo-90K
+VideoGigaGAN | 369 | 26.78/-  | 35.97/-  | 32.78/0.9220 | REDS+Vimeo-90K
+FTVSR++ | 10.8 | 28.80/0.8680  | -  | 32.42/0.9070 | REDS+Vimeo-90K
+MFPI | 7.3 | 28.11/0.8481  | 38.28/0.9534  | 32.81/0.9106 | REDS+Vimeo-90K
+RVRT | 10.8 | 27.99/0.8462  | 38.15/0.9527  | 32.75/0.9113 | REDS+Vimeo-90K
+
 
 ## :heavy_exclamation_mark: Stereo Super-Resolution (SSR)  
 We categorize the SSR into three types, [**Convolutional Neural Network-based**](./Stereo-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Stereo-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Stereo-Super-Resolution/Transformer-based.md), for their purpose.  
@@ -132,6 +152,10 @@ SSRDE-FNet  | 2.24  | 25.74/0.7884  | 26.61/0.8028  | 29.29/0.8407  | Flickr1024
 IMSSRnet  | 6.89  | 25.59/-  | 26.44/-  | 29.02/-  | Middlebury+Flickr1024 
 CVCNet  | 0.99  | 25.55/0.7801  | 26.35/0.7935  | 28.65/0.8231  | Flickr1024 
 PFT-SSR  | -  | 25.76/0.7775  | 26.64/0.7913  | 29.58/0.8418  | Flickr1024+Middlebury 
+LSSR  | 1.11  | 26.12/0.7997  | 26.93/0.8097  | 29.86/0.8489  | Flickr1024+Middlebury 
+SCGLANet  | 25.29  | 26.94/0.8268  | 27.10/0.8204  | 30.23/0.8628  | Flickr1024+Middlebury 
+MSSFNet  | 1.82   | 26.07/0.7990  | 26.88/0.8098  | 29.67/0.8498  | Flickr1024+Middlebury 
+Steformer  | 1.34   | 25.74/0.7906  | 26.61/0.8037  | 29.29/0.8424  | Flickr1024 
 
 ## :heavy_exclamation_mark: Light Field Super-Resolution (LFSR)  
 We categorize the LFSR into three types, [**Convolutional Neural Network-based**](./Light-Field-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Light-Field-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Light-Field-Super-Resolution/Transformer-based.md), for their purpose.  
@@ -160,3 +184,5 @@ LF-DFnet  | 3.99  | 28.77/0.9165  | 31.23/0.9196  | 37.32/0.9718  | 30.83/0.9503
 DPT  | 3.78  | 28.93/0.9167  | 31.19/0.9186  | 37.39/0.9720  | 30.96/0.9502  | 31.14/0.9487 
 LFT  | 1.16  | 29.25/0.9210  | 31.46/0.9220  | 37.63/0.9740  | 31.20/0.9520  | 31.86/0.9550 
 DistgSSR | 3.58  | 28.98/0.9190  | 31.38/0.9220  | 37.55/0.9730  | 30.99/0.9520  | 31.63/0.9530 
+EPIT | 1.47  | 29.34/0.9197  | 31.51/0.9231  | 37.68/0.9737  | 31.37/0.9526  | 32.18/0.9571 
+LFSAV | 1.54  | 29.37/0.9223  | 31.45/0.9217  | 37.50/0.9721  | 31.27/0.9531  | 31.36/0.9505 
