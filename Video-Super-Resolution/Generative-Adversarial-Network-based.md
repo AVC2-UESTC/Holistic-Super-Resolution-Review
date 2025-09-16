@@ -11,5 +11,11 @@ Model | Description | Publication | Year
 [EGVSR](https://ieeexplore.ieee.org/abstract/document/9516670)|efficient model|ASAP|2021
 [Andrei et al.](https://ieeexplore.ieee.org/abstract/document/9460113)|two stage vsr|Access|2021
 [Wang et al.](https://www.mdpi.com/2079-9292/10/4/459)|edge information and loss|Electronics|2021
+[MGLDVSR](https://arxiv.org/abs/2312.00853)|pre-trained latent diffusion mode|ECCV|2024
+[StableVSR](https://arxiv.org/abs/2311.15908)|diffusion models|ECCV|2024
+[Yuan et al. ](https://arxiv.org/abs/2401.10404)|fintuning|WACV|2024
+[Imagen Video](https://arxiv.org/abs/2210.02303)|cascade of video diffusion models||2022
+[SATeCo](https://arxiv.org/abs/2403.17000)|pixel-wise affine modulation|CVPR|2024
+
 
 

@@ -14,3 +14,8 @@ Model | Description | Publication | Year
 [deep-generative-prior](https://ieeexplore.ieee.org/abstract/document/9547753)|image prior|TPAMI|2021
 [PDM](https://openaccess.thecvf.com/content/CVPR2022/papers/Luo_Learning_the_Degradation_Distribution_for_Blind_Image_Super-Resolution_CVPR_2022_paper.pdf)|probabilistic degradation model|CVPR|2022
 [SROOE](https://openaccess.thecvf.com/content/CVPR2023/papers/Park_Perception-Oriented_Single_Image_Super-Resolution_Using_Optimal_Objective_Estimation_CVPR_2023_paper.pdf)|multi losses combination stratagy|CVPR|2023
+[SR3](https://ieeexplore.ieee.org/document/9887996)|diffusion model|TPAMI|2022
+[Resshift](https://arxiv.org/abs/2307.12348)|residual-based Markov chains|NeurIPS|2023
+[SUPIR](https://arxiv.org/abs/2401.13627)|prompt-guided restoration|CVPR|2024
+[SeeSR](https://arxiv.org/abs/2311.16518)|egradation-aware semantic prompting|CVPR|2024
+[StableSR](https://arxiv.org/abs/2305.07015)|Diffusion Prior|IJCV|2024
