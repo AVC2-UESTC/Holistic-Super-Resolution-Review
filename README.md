@@ -4,7 +4,7 @@ Review of deep-learning based super-resolution method in different fields.
 :blush: The wealth of the literature on SR is so rich that we could not give an exhaustic review. We just list the major methods along the timeline.  
 
 ## :heavy_exclamation_mark: Single Image Super-Resolution (SISR)  
-We categorize the SISR into three types, [**Convolutional Neural Network-based**](./Single-Image-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Single-Image-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Single-Image-Super-Resolution/Transformer-based.md), for their purpose.  
+We categorize the SISR into TWO types, [**Regression-Based Models**](./Single-Image-Super-Resolution/Regression-based-Models.md) and [**Generative-Based Models**](./Single-Image-Super-Resolution/Generative-based-Models.md), for their purpose.  
 
 :boom: **Datasets**  
 :one: [Set5](https://drive.google.com/drive/folders/1BtRY2CfpXfgkzabwDmrJaKl1LcIfdsQu?usp=sharing)   
@@ -90,7 +90,7 @@ SAFMN | 240 | 32.18/0.8948 | 28.60/0.7813 | 27.58/0.7359 | 25.97/0.7809 | DIV2K+
 CFAT | 22070 | 33.19/ 0.9068 | 29.30/0.7985 | 28.17/0.7524 | 28.11/0.8380 | DIV2K+Flickr2K
 
 ## :heavy_exclamation_mark: Video Super-Resolution (VSR)  
-We categorize the SISR into three types, [**Convolutional Neural Network-based**](./Video-Super-Resolution/Convolutional-Neural-Network-based.md), and [**Transformer-based**](./Video-Super-Resolution/Transformer-based.md), for their purpose.  
+We categorize the SISR into TWO types, [**Regression-Based Models**](./Video-Super-Resolution/Regression-based-Models.md) and [**Generative-Based Models**](./Video-Super-Resolution/Generative-based-Models.md), for their purpose. 
 
 :boom: **Datasets**  
 :one: [REDS](https://seungjunnah.github.io/Datasets/reds.html)   
@@ -129,7 +129,7 @@ RVRT | 10.8 | 27.99/0.8462  | 38.15/0.9527  | 32.75/0.9113 | REDS+Vimeo-90K
 
 
 ## :heavy_exclamation_mark: Stereo Super-Resolution (SSR)  
-We categorize the SSR into three types, [**Convolutional Neural Network-based**](./Stereo-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Stereo-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Stereo-Super-Resolution/Transformer-based.md), for their purpose.  
+We categorize the SSR into TWO types, [**Regression-Based Models**](./Stereo-Super-Resolution/Regression-based-Models.md) and [**Generative-Based Models**](./Stereo-Super-Resolution/Generative-based-Models.md), for their purpose. 
 
 :boom: **Datasets**  
 :one: [Middlebury](https://vision.middlebury.edu/stereo/data/)   
@@ -158,7 +158,7 @@ MSSFNet  | 1.82   | 26.07/0.7990  | 26.88/0.8098  | 29.67/0.8498  | Flickr1024+M
 Steformer  | 1.34   | 25.74/0.7906  | 26.61/0.8037  | 29.29/0.8424  | Flickr1024 
 
 ## :heavy_exclamation_mark: Light Field Super-Resolution (LFSR)  
-We categorize the LFSR into three types, [**Convolutional Neural Network-based**](./Light-Field-Super-Resolution/Convolutional-Neural-Network-based.md), [**Generative Adversarial Network-based**](./Light-Field-Super-Resolution/Generative-Adversarial-Network-based.md) and [**Transformer-based**](./Light-Field-Super-Resolution/Transformer-based.md), for their purpose.  
+We categorize the LFSR into TWO types, [**Regression-Based Models**](./Light-Field-Super-Resolution/Regression-based-Models.md) and [**Generative-Based Models**](./Light-Field-Super-Resolution/Generative-based-Models.md), for their purpose. 
 
 :boom: **Datasets**  
 :one: [EPFL](https://infoscience.epfl.ch/record/218363)  
